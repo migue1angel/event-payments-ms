@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { envs } from './config/envs';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
+  const logger = new Logger('Main Payment-MS')
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
@@ -21,6 +22,6 @@ async function bootstrap() {
     }),
   );
   await app.listen();
-  console.log(`Application is running on: ${envs.PORT}`);
+  logger.log(`Payment-Ms is running on port ${envs.PORT}`)
 }
 bootstrap();
