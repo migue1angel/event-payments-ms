@@ -67,6 +67,8 @@ export class PaymentService {
 
       return body;
     } catch (error) {
+      console.log(error.message);
+      
       if (error instanceof ApiError) {
         // const { statusCode, headers } = error;
         throw new Error(error.message);
