@@ -86,7 +86,7 @@ export class PaymentService {
         parseBody = JSON.parse(body);
         if (parseBody.status === 'COMPLETED') {
           const orderId = parseBody.purchase_units[0].reference_id;
-          this.updateOrder(orderId);
+          this.payOrder(orderId);
         }
         return parseBody;
       }
@@ -102,11 +102,18 @@ export class PaymentService {
     }
   }
 
-  async updateOrder(orderId: string) {
-    const updatedOrder = await firstValueFrom(
-      this.client.send('updateOrder', orderId),
+  async payOrder(orderId: string) {
+    const paidOrder = await firstValueFrom(
+      this.client.send('payOrder', orderId),
     );
-    return updatedOrder;
+    return paidOrder;
+  }
+
+  async cancelOrder(orderId: string) {
+    const canceledOrder = await firstValueFrom(
+      this.client.send('cancelOrder', orderId),
+    );
+    return canceledOrder;
   }
 
   private getItems(payment: PaymentSessionDto) {
